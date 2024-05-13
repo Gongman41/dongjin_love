@@ -215,3 +215,17 @@ screen game_over_screen:
         yalign 0.5
         text _("진짜 게임 개못하네")
         textbutton _("함 더?") action Return()
+
+
+# // Check if the environment is a web browser
+# if (renpy.emscripten) {
+#     // Run JavaScript script
+#     renpy.emscripten.run_script("console.log('Hello from Ren\'Py!');");
+# }
+# index.html에 들어갈 코드
+
+#  $ user_input = renpy.input("Enter your data:")
+
+    # JavaScript 함수 호출하여 사용자 입력을 서버로 보내기
+    # $ renpy.call_js_function("sendUserDataToServer", user_input)
+# 여기는 index.html

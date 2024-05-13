@@ -1,0 +1,50 @@
+﻿I'm sorry, but an uncaught exception occurred.
+
+While running game code:
+  File "game/script.rpy", line 65, in script
+    ed "[authenticate(username, password)]"
+  File "game/script.rpy", line 21, in authenticate
+    response = requests.post(SERVER_URL, data={"username": username, "password": password})
+ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /accounts/login/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000000054110a0>: Failed to establish a new connection: [WinError 10061] 대상 컴퓨터에서 연결을 거부했으므로 연결하지 못했습니다'))
+
+-- Full Traceback ------------------------------------------------------------
+
+Full traceback:
+  File "game/script.rpy", line 65, in script
+    ed "[authenticate(username, password)]"
+  File "C:\Users\SSAFY\Desktop\renpy-8.2.1-sdk\renpy\ast.py", line 2557, in execute
+    Say.execute(self)
+  File "C:\Users\SSAFY\Desktop\renpy-8.2.1-sdk\renpy\ast.py", line 615, in execute
+    renpy.exports.say(who, what, *args, **kwargs)
+  File "C:\Users\SSAFY\Desktop\renpy-8.2.1-sdk\renpy\exports.py", line 1493, in say
+    who(what, *args, **kwargs)
+  File "C:\Users\SSAFY\Desktop\renpy-8.2.1-sdk\renpy\character.py", line 1379, in __call__
+    what = self.prefix_suffix("what", self.what_prefix, what, self.what_suffix)
+  File "C:\Users\SSAFY\Desktop\renpy-8.2.1-sdk\renpy\character.py", line 1293, in prefix_suffix
+    return (sub(prefix) + sub(body) + sub(suffix))
+  File "C:\Users\SSAFY\Desktop\renpy-8.2.1-sdk\renpy\character.py", line 1273, in sub
+    return renpy.substitutions.substitute(s, scope=scope, force=force, translate=translate)[0]
+  File "C:\Users\SSAFY\Desktop\renpy-8.2.1-sdk\renpy\substitutions.py", line 368, in substitute
+    s = interpolate(s, kwargs) # type: ignore
+  File "C:\Users\SSAFY\Desktop\renpy-8.2.1-sdk\renpy\substitutions.py", line 86, in interpolate
+    raise e
+  File "C:\Users\SSAFY\Desktop\renpy-8.2.1-sdk\renpy\substitutions.py", line 78, in interpolate
+    value = renpy.python.py_eval(code, {}, scope)
+  File "C:\Users\SSAFY\Desktop\renpy-8.2.1-sdk\renpy\python.py", line 1209, in py_eval
+    return py_eval_bytecode(code, globals, locals)
+  File "C:\Users\SSAFY\Desktop\renpy-8.2.1-sdk\renpy\python.py", line 1202, in py_eval_bytecode
+    return eval(bytecode, globals, locals)
+  File "<none>", line 1, in <module>
+  File "game/script.rpy", line 21, in authenticate
+    response = requests.post(SERVER_URL, data={"username": username, "password": password})
+  File "lib/python3.9/requests/api.py", line 115, in post
+  File "lib/python3.9/requests/api.py", line 59, in request
+  File "lib/python3.9/requests/sessions.py", line 589, in request
+  File "lib/python3.9/requests/sessions.py", line 703, in send
+  File "lib/python3.9/requests/adapters.py", line 519, in send
+ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /accounts/login/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000000054110a0>: Failed to establish a new connection: [WinError 10061] 대상 컴퓨터에서 연결을 거부했으므로 연결하지 못했습니다'))
+
+Windows-10-10.0.19045 AMD64
+Ren'Py 8.2.1.24030407
+dongjin_love 1.0
+Thu May  9 17:50:13 2024

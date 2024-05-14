@@ -11,55 +11,55 @@ define ed = Character('이동진', color="#e33d05")
 define who = Character('??',color="#6b666623")
 define love = 0
 
-init python:
-    # requests 모듈을 가져옵니다.
-    import requests
+# init python:
+#     # requests 모듈을 가져옵니다.
+#     import requests
 
-    # 서버 주소를 설정합니다.
-    SERVER_URL = "http://example.com/login"
-    MOVIE_DATA_URL = "http://example.com/movie_data"  # 영화 데이터를 가져올 URL로 변경해야 합니다.
+#     # 서버 주소를 설정합니다.
+#     SERVER_URL = "http://example.com/login"
+#     MOVIE_DATA_URL = "https://api.themoviedb.org/3/movie/top_rated?language=ko-kr&api_key=16f6785c7a08a1a7f2ef7867ced1e4a8"  # 영화 데이터를 가져올 URL로 변경해야 합니다.
 
-    # 전역 변수로 영화 데이터를 저장할 딕셔너리를 초기화합니다.
-    movie_data = {}
+#     # 전역 변수로 영화 데이터를 저장할 딕셔너리를 초기화합니다.
+#     movie_data = []
 
 
-    # 아이디와 비밀번호를 이용하여 로그인을 시도하는 함수를 정의합니다.
-    def authenticate(username, password):
-        # POST 요청을 보냅니다. 여기서는 서버로 아이디와 비밀번호를 보냅니다.
-        response = requests.post(SERVER_URL, data={"username": username, "password": password})
+#     # 아이디와 비밀번호를 이용하여 로그인을 시도하는 함수를 정의합니다.
+#     def authenticate(username, password):
+#         # POST 요청을 보냅니다. 여기서는 서버로 아이디와 비밀번호를 보냅니다.
+#         # response = requests.post(SERVER_URL, data={"username": username, "password": password})
 
-        # 응답의 상태 코드를 확인하여 로그인 성공 여부를 판단합니다.
-        if response.status_code == 200:
-            # 서버가 반환한 JSON 응답을 디코딩하여 결과를 확인합니다.
-            result = response.json()
-            if result["authenticated"]:
-                fetch_movie_data()
-                return True
-            else:
-                return False
-        else:
-            # 요청에 실패한 경우 False를 반환합니다.
-            return False
+#         # # 응답의 상태 코드를 확인하여 로그인 성공 여부를 판단합니다.
+#         # if response.status_code == 200:
+#         #     # 서버가 반환한 JSON 응답을 디코딩하여 결과를 확인합니다.
+#         #     result = response.json()
+#             # if result["authenticated"]:
+#         fetch_movie_data()
+#         return True
+#         #     else:
+#         #         return False
+#         # else:
+#         #     # 요청에 실패한 경우 False를 반환합니다.
+#         #     return False
 
-            # 로그인 성공 시 특정 장르의 영화데이터를 가져오는 로직 작성ㄷ
+#             # 로그인 성공 시 특정 장르의 영화데이터를 가져오는 로직 작성ㄷ
 
     
 
-    # 로그인이 성공하면 영화 데이터를 가져와서 전역 변수에 저장하는 함수를 정의합니다.
-    def fetch_movie_data():
-        global movie_data
+#     # 로그인이 성공하면 영화 데이터를 가져와서 전역 변수에 저장하는 함수를 정의합니다.
+#     def fetch_movie_data():
+#         global movie_data
 
-        try:
-            movie_response = requests.get(MOVIE_DATA_URL)
+#         try:
+#             movie_response = requests.get(MOVIE_DATA_URL)
 
-            # 영화 데이터를 JSON 형식으로 디코딩합니다.
-            movie_json = movie_response.json()
+#             # 영화 데이터를 JSON 형식으로 디코딩합니다.
+#             movie_json = movie_response.data.results
 
-            # 가져온 영화 데이터를 전역 변수에 저장합니다.
-            movie_data = movie_json
+#             # 가져온 영화 데이터를 전역 변수에 저장합니다.
+#             movie_data = movie_json
 
-        except Exception as e:
-            renpy.say("오류발생!! 오류발생!! 오류발생!!: {}".format(e))
+#         except Exception as e:
+#             renpy.say("오류발생!! 오류발생!! 오류발생!!: {}".format(e))
 
 
 # 여기에서부터 게임이 시작합니다.
@@ -84,11 +84,21 @@ label start:
         # 아이디와 비밀번호 입력. 회원가입은 웹사이트에서 진행
         # 배경이미지는 image 디렉토리에 class.jpg
         # 캐릭터이미지는 edg.png
-        if True:
+        
+
+    # JavaScript 함수 호출 및 결과를 받기 위해 emscripten.run_script_int 대신에 run_script를 사용합니다.
+        $ login_result = renpy.emscripten.run_script_string("getArticles()")
+
+        # JavaScript 함수의 반환값을 확인하여 처리합니다.
+        if login_result:
             ed "아 [username]씨... 이름 이쁘네요."
-            jump scene1
+
+            ed "[login_result]"
+            jump scene1d
         else:
             ed "....네? 잘못들은 거 같은데 다시 말씀해주시겠어요?"
+
+            ed "[login_result]"
 
 label scene1:
 
@@ -148,36 +158,37 @@ label scene2:
 
     ed "그 영화를 아실 지 모르겠는데..."
 
+    ed "[movie_data]"
+
     $ count = 2
     $ check = 0
-    $ title = '영화제목1'
+    $ title = movie_data[0].work
     $ movies = ['영화제목1','영화제목2','영화제목3']
-    $ description = '음음음'
     while count:
         menu:
-            "그 영화 당연히 알죠![movies[0]]":
+            "그 영화 당연히 알죠![movie_data[0].work]":
                 if '영화제목1' == title:
                     $ love += 20
                     $ count = 0
                     $ check = 1
                 else:
-                    ed "[description]"
+                    ed "[movie_data[0].content]"
                     $ count -= 1
-            "그 영화 당연히 알죠![movies[1]]":
+            "그 영화 당연히 알죠![movie_data[1].work]":
                 if '영화제목2' == title:
                     $ love += 20
                     $ count = 0
                     $ check = 1
                 else:
-                    ed "[description]"
+                    ed "[movie_data[1].content]"
                     $ count -= 1
-            "그 영화 당연히 알죠![movies[2]]":
+            "그 영화 당연히 알죠![movie_data[2].work]":
                 if '영화제목3' == title:
                     $ love += 20
                     $ count = 0
                     $ check = 1
                 else:
-                    ed "[description]"
+                    ed "[movie_data[2].content]"
                     $ count -= 1
     if  check == 0:
         ed "모를수도 있습니다. 제가 제 생각에만 또 빠졌군요.."

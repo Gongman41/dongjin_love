@@ -220,35 +220,60 @@
 
   <script>
       // Register the service worker.
-      if (navigator.serviceWorker) {
-          if (!navigator.serviceWorker.controller) {
-              navigator.serviceWorker.register('./service-worker.js', { updateViaCache: 'all' });
-          }
-      }
-
-      const test = function(name,word) {
-      if (name) {
-        return 1
-      } else {
-        return 0
-      }
+    if (navigator.serviceWorker) {
+        if (!navigator.serviceWorker.controller) {
+            navigator.serviceWorker.register('./service-worker.js', { updateViaCache: 'all' });
+        }
     }
 
-    const getArticles = function () {
+    function extractAccessToken() {
+      // Get the URL hash
+      const hash = window.location.hash;
+      // Parse the hash and extract access token
+      const params = new URLSearchParams(hash.substring(1));
+      return params.get('access_token');
+  }
+
+  //const accessToken = extractAccessToken()
+  const accessToken = extractAccessToken()
+    
+    const get_Nickname = function () {
     return axios({
       method: 'get',
       url: 'http://127.0.0.1:8000/api/v1/articles/',
+      headers: {
+        Authorization: `Token ${access_token}`
+      }
     })
       .then(response => {
-        return response.data
+        return response.data.nickname
       })
       .catch(error => {
         console.log(error)
       })
+    }
+    const get_Moviedata = function () {
+    return axios({
+      method: 'get',
+      url: 'http://127.0.0.1:8000/api/v1/articles/',
+      headers: {
+        Authorization: `Token ${access_token}`
+      }
+    })
+      .then(response => {
+        return response.data.movies
+      })
+      .catch(error => {
+        console.log(error)
+      })
+      
 }
+    
   </script>
   <script src="renpy-pre.js"></script>
   <script async type="text/javascript" src="renpy.js"></script>
+
+</body>
 
 </html>
 

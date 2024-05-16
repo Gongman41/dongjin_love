@@ -14,6 +14,10 @@
         <label for="password2">비밀번호 확인 : </label>
         <input type="password" v-model.trim="password2" id="password2">
       </div>
+      <div>
+        <label for="nickname">닉네임 : </label>
+        <input type="text" v-model.trim="nickname" id="nickname">
+      </div>
       <input type="submit" value="회원가입">
     </form>
   </div>
@@ -26,13 +30,15 @@ import { useMemberStore } from '@/stores/member'
 const username = ref(null)
 const password1 = ref(null)
 const password2 = ref(null)
+const nickname = ref(null)
 const memberStore = useMemberStore()
 
 const signup = function () {
   const payload = {
     username: username.value,
     password1: password1.value,
-    password2: password2.value
+    password2: password2.value,
+    nickname: nickname.value
   }
   memberStore.signup(payload)
 }

@@ -13,11 +13,11 @@ export const useMemberStore = defineStore('member', () => {
       return true
     }
   })
-  
+
   const router = useRouter()
 
   const signup = function (payload) {
-    const { username, password1, password2 } = payload
+    const { username, password1, password2, nickname } = payload
 
     axios({
       method: 'post',
@@ -25,12 +25,14 @@ export const useMemberStore = defineStore('member', () => {
       data: {
         username,
         password1,
-        password2
+        password2,
+        nickname
       }
     })
       .then((response) => {
         const password = password1
         login({ username, password })
+        console.log('회원가입 성공')
       })
       .catch((error) => {
         console.log(error)
@@ -52,6 +54,23 @@ export const useMemberStore = defineStore('member', () => {
       .then((response) => {
         token.value = response.data.key
         router.push('/')
+        console.log('로그인 성공')
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
+  const logout = function () {
+
+    axios({
+      method: 'post',
+      url: `${API_URL}/accounts/logout/`
+    })
+      .then((response) => {
+        token.value = null
+        router.push('/')
+        console.log('로그아웃 성공')
       })
       .catch((error) => {
         console.log(error)
@@ -59,6 +78,6 @@ export const useMemberStore = defineStore('member', () => {
   }
   return {
     API_URL, token, isLogin,
-    signup, login
+    signup, login, logout
   }
 }, { persist: true })

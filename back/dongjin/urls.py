@@ -17,7 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from accounts import views
-
+from dj_rest_auth.registration.views import RegisterView
+from accounts.serializers import UserRegisterSerializer
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('movies.urls')),
@@ -25,5 +26,5 @@ urlpatterns = [
     path('accounts/', include('dj_rest_auth.urls')),
     path('accounts/<int:user_id>/', views.profile),
     # 'dj-rest-auth[with_social]'
-    path('accounts/signup/', include('dj_rest_auth.registration.urls')),
+    path('accounts/signup/', RegisterView.as_view(serializer_class=UserRegisterSerializer)),
 ]

@@ -226,41 +226,27 @@
         }
     }
 
-    function extractAccessToken() {
-      // Get the URL hash
-      const hash = window.location.hash;
-      // Parse the hash and extract access token
-      const params = new URLSearchParams(hash.substring(1));
-      return params.get('access_token');
-  }
+    function extractUserId() {
+        // 예시로 URL에서 직접 user_id를 추출하는 함수를 작성
+        const urlParams = new URLSearchParams(window.location.search)
+        return urlParams.get('user_id')
+    }
 
-  const accessToken = extractAccessToken()
+    const userId = extractUserId()
     
     const get_Nickname = function () {
-    return axios({
-      method: 'get',
-      url: 'http://127.0.0.1:8000/api/v1/articles/',
-      headers: {
-        Authorization: `Token ${access_token}`
-      }
-    })
+      return axios.get(`http://127.0.0.1:8000/accounts/${userId}/`)
       .then(response => {
-        return response.data.nickname
+        return response.data
       })
       .catch(error => {
         console.log(error)
       })
     }
     const get_Moviedata = function () {
-    return axios({
-      method: 'get',
-      url: 'http://127.0.0.1:8000/api/v1/',
-      headers: {
-        Authorization: `Token ${access_token}`
-      }
-    })
+    return axios.get(`http://127.0.0.1:8000/api/v1/`)
       .then(response => {
-        return response.data.movies
+        return response.data
       })
       .catch(error => {
         console.log(error)
@@ -271,7 +257,6 @@
   </script>
   <script src="renpy-pre.js"></script>
   <script async type="text/javascript" src="renpy.js"></script>
-
 </body>
 
 </html>

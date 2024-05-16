@@ -2,6 +2,7 @@ from rest_framework import serializers
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
 from dj_rest_auth.registration.serializers import RegisterSerializer
+from .models import User
 
 class UserRegisterSerializer(RegisterSerializer):
     nickname = serializers.CharField(max_length=20)
@@ -16,3 +17,8 @@ class UserRegisterSerializer(RegisterSerializer):
         data_dict['nickname'] = self.validated_data.get('nickname', '')
         # 추가 필드에 대한 처리도 여기에 추가할 수 있음
         return data_dict
+    
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'

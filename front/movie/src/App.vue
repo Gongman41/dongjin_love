@@ -1,17 +1,20 @@
 <template>
-  <nav v-if="memberStore.token !== null">
-    <RouterLink to="/">홈으로</RouterLink> |
-    <RouterLink to="/dongjinlove">동진이게임</RouterLink> |
-    <RouterLink to="/moviedetail">영화정보</RouterLink>
-    <button @click="logout">logout</button>
-  </nav>
+  <div class="body-color">
+    <nav v-if="memberStore.token !== null" class="navbar">
+      <RouterLink to="/">홈으로</RouterLink> |
+      <RouterLink to="/dongjinlove">동진이게임</RouterLink> |
+      <RouterLink to="/moviedetail">영화정보</RouterLink>
+      <button @click="logout">로그아웃</button>
+    </nav>
 
-  <nav v-else>
-    <RouterLink to="/signup">회원가입</RouterLink> |
-    <RouterLink to="/login">로그인</RouterLink>
-  </nav>
-  <div>
-    <RouterView />
+    <nav v-else class="navbar">
+      <RouterLink to="/signup">회원가입</RouterLink> |
+      <RouterLink to="/login">로그인</RouterLink>
+    </nav>
+
+    <div class="content">
+      <RouterView />
+    </div>
   </div>
 </template>
 
@@ -28,4 +31,50 @@ const logout = function () {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.navbar {
+  background: rgba(39, 41, 50, 1);
+  width: 200px;
+  /* 너비 조정 */
+  height: 100vh;
+  /* 뷰포트의 전체 높이 */
+  position: fixed;
+  /* 왼쪽에 고정된 위치 */
+  top: 0;
+  /* 위쪽에 정렬 */
+  left: 0;
+  /* 왼쪽에 정렬 */
+  display: flex;
+  /* 플렉스박스를 사용하여 정렬 */
+  flex-direction: column;
+  /* 항목을 세로로 쌓음 */
+  padding-top: 20px;
+  /* 위쪽에 패딩 추가 */
+  z-index: 1;
+  /* 네비게이션 바가 다른 요소 위에 올라오도록 z-index 설정 */
+}
+
+.content {
+  margin-left: 220px;
+  /* 네비게이션 바 너비 + 여유 공간 만큼 컨텐츠를 오른쪽으로 밀어줌 */
+  padding: 20px;
+  background: rgba(39, 41, 50, 1);
+  /* 여백 추가 */
+}
+
+.navbar a,
+.navbar button {
+  color: white;
+  /* 텍스트 색상 */
+  text-decoration: none;
+  /* 밑줄 제거 */
+  padding: 10px;
+  /* 패딩 추가 */
+}
+
+.navbar a:hover,
+.navbar button:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+  /* 마우스 오버 시 배경색 변경 */
+}
+</style>

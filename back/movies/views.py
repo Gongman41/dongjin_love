@@ -36,7 +36,7 @@ def review(request, movie_id):
       return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @api_view(['POST', 'PUT'])
-def review_detail(request, review_id):
+def review_detail(request, movie_id, review_id):
   review = get_object_or_404(Review, pk=review_id)
   # 리뷰 삭제
   if request.method == 'POST':

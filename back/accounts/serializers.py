@@ -17,7 +17,8 @@ class UserRegisterSerializer(RegisterSerializer):
         data_dict['nickname'] = self.validated_data.get('nickname', '')
         # 추가 필드에 대한 처리도 여기에 추가할 수 있음
         return data_dict
-    
+
+# 닉네임 가져오기 용
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

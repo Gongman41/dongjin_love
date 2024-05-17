@@ -3,6 +3,7 @@ from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
 from django.contrib.auth import update_session_auth_hash, get_user_model
 from dj_rest_auth.registration.serializers import RegisterSerializer
+from .models import User
 
 class UserRegisterSerializer(RegisterSerializer):
     nickname = serializers.CharField(max_length=20)

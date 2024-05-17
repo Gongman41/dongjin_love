@@ -41,7 +41,6 @@ import { useRoute, RouterView, RouterLink } from 'vue-router'
 import { useMemberStore } from '@/stores/member';
 
 const route = useRoute()
-console.log(route.path)
 const memberStore = useMemberStore()
 const logout = function () {
   memberStore.logout()

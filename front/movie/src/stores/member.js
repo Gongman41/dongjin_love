@@ -6,6 +6,7 @@ import axios from 'axios'
 export const useMemberStore = defineStore('member', () => {
   const API_URL = 'http://127.0.0.1:8000'
   const token = ref(null)
+  const profile = ref(null)
   const loginUser = ref(null)
   const isLogin = computed(() => {
     if (token.value === null) {
@@ -84,8 +85,20 @@ export const useMemberStore = defineStore('member', () => {
       })
   }
 
+  const getProfile = function () {
+    axios({
+      method: 'get',
+      // url: `http://127.0.0.1:8000/profile/${userName.value}`,
+      url: `${API_URL}/profile/${loginUser.value}`
+    })
+      .then((response) => {
+        profile.value = response.data
+      })
+      .catch((error) => console.log(error))
+  }
+
   return {
-    API_URL, token, isLogin, loginUser,
-    signup, login, logout
+    API_URL, token, isLogin, loginUser, profile,
+    signup, login, logout, getProfile
   }
 }, { persist: true })

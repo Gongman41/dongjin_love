@@ -1,10 +1,10 @@
 <template>
   <div class="body-color">
     <nav v-if="memberStore.token !== null" class="navbar">
-      <RouterLink to="/">홈으로</RouterLink> |
-      <RouterLink to="/dongjinlove">동진이게임</RouterLink> |
-      <RouterLink to="/moviedetail">영화정보</RouterLink>
-      <button @click="logout">로그아웃</button>
+      <RouterLink to="/"><img src="@/assets/home.png" alt="home"></RouterLink>
+      <RouterLink to="/dongjinlove">동진이게임</RouterLink>
+      <RouterLink :to="{ name: 'Profile', params: { username: memberStore.loginUser } }">프로필</RouterLink>
+      <button @click="logout" class="logout-button">로그아웃</button>
     </nav>
 
     <nav v-else class="navbar">
@@ -20,11 +20,11 @@
 
 <script setup>
 import { ref } from 'vue'
-import { RouterView, RouterLink } from 'vue-router'
-import { useMemberStore } from './stores/member';
+import { useRoute, RouterView, RouterLink } from 'vue-router'
+import { useMemberStore } from '@/stores/member';
 
+const route = useRoute()
 const memberStore = useMemberStore()
-
 const logout = function () {
   memberStore.logout()
 }
@@ -32,6 +32,10 @@ const logout = function () {
 </script>
 
 <style scoped>
+img {
+  width: 50px;
+}
+
 .navbar {
   background: rgba(39, 41, 50, 1);
   width: 200px;
@@ -58,7 +62,9 @@ const logout = function () {
   margin-left: 220px;
   /* 네비게이션 바 너비 + 여유 공간 만큼 컨텐츠를 오른쪽으로 밀어줌 */
   padding: 20px;
-  background: rgba(39, 41, 50, 1);
+  /* background: rgba(39, 41, 50, 1); */
+  height: 100vh;
+
   /* 여백 추가 */
 }
 
@@ -76,5 +82,20 @@ const logout = function () {
 .navbar button:hover {
   background-color: rgba(0, 0, 0, 0.2);
   /* 마우스 오버 시 배경색 변경 */
+}
+
+.logout-button {
+  background: linear-gradient(to bottom, #763DCF, #5C24CC);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 10px;
+}
+
+.navbar img:hover {
+  filter: brightness(0.8);
 }
 </style>

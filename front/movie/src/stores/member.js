@@ -6,6 +6,7 @@ import axios from 'axios'
 export const useMemberStore = defineStore('member', () => {
   const API_URL = 'http://127.0.0.1:8000'
   const token = ref(null)
+  const loginUser = ref(null)
   const isLogin = computed(() => {
     if (token.value === null) {
       return false
@@ -53,8 +54,11 @@ export const useMemberStore = defineStore('member', () => {
     })
       .then((response) => {
         token.value = response.data.key
-        router.push('/')
+        loginUser.value = username
+        console.log(loginUser.value)
+        console.log(token.value)
         console.log('로그인 성공')
+        router.push('/')
       })
       .catch((error) => {
         console.log(error)
@@ -69,15 +73,19 @@ export const useMemberStore = defineStore('member', () => {
     })
       .then((response) => {
         token.value = null
-        router.push('/')
+        loginUser.value = null
+        console.log(loginUser.value)
+        console.log(token.value)
+        router.push('/login')
         console.log('로그아웃 성공')
       })
       .catch((error) => {
         console.log(error)
       })
   }
+
   return {
-    API_URL, token, isLogin,
+    API_URL, token, isLogin, loginUser,
     signup, login, logout
   }
 }, { persist: true })

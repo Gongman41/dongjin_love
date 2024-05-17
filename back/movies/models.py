@@ -15,7 +15,7 @@ class Movie(models.Model):
     vote_count = models.IntegerField()
     vote_average = models.FloatField()
     overview = models.TextField()
-    poster_path = models.CharField(max_length=200)
+    poster_path = models.CharField(max_length=200, null=True)
     genres = models.ManyToManyField(Genre, related_name='movies')
     # dongjin_point = models.FloatField(default = 5)
 

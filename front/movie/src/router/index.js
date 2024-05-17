@@ -39,7 +39,7 @@ const router = createRouter({
       path: '/profile/:username',
       name: 'Profile',
       component: ProfileView
-    }
+    },
   ]
 })
 

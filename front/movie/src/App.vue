@@ -1,9 +1,25 @@
 <template>
-  <div class="body-color">
+  <div>
     <nav v-if="memberStore.token !== null" class="navbar">
-      <RouterLink to="/"><img src="@/assets/home.png" alt="home"></RouterLink>
-      <RouterLink to="/dongjinlove">동진이게임</RouterLink>
-      <RouterLink :to="{ name: 'Profile', params: { username: memberStore.loginUser } }">프로필</RouterLink>
+      <RouterLink to="/" :class="{ 'click': route.path === '/', 'non-click': route.path !== '/' }">
+        <img v-if="route.path !== '/'" src="@/assets/home.png" alt="home">
+        <img v-if="route.path === '/'" src="@/assets/click_home.png" alt="home">
+      </RouterLink>
+
+      <RouterLink to="/dongjinlove"
+        :class="{ 'click': route.path === '/dongjinlove', 'non-click': route.path !== '/dongjinlove' }">
+        <img v-if="route.path !== '/dongjinlove'" src="@/assets/game.png" alt="game">
+        <img v-if="route.path === '/dongjinlove'" src="@/assets/click_game.png" alt="game">
+      </RouterLink>
+
+      <RouterLink :to="{ name: 'Profile', params: { username: memberStore.loginUser } }"
+        :class="{ 'click': route.name === 'Profile', 'non-click': route.name !== 'Profile' }">
+        <img v-if="route.name !== 'Profile'" src="@/assets/profile.png" alt="profile">
+        <img v-if="route.name === 'Profile'" src="@/assets/click_profile.png" alt="profile">
+      </RouterLink>
+
+      <RouterLink to="">네이버</RouterLink>
+      <img src="@/assets/line.png" alt="line">
       <button @click="logout" class="logout-button">로그아웃</button>
     </nav>
 
@@ -11,6 +27,7 @@
       <RouterLink to="/signup">회원가입</RouterLink> |
       <RouterLink to="/login">로그인</RouterLink>
     </nav>
+
 
     <div class="content">
       <RouterView />
@@ -24,6 +41,7 @@ import { useRoute, RouterView, RouterLink } from 'vue-router'
 import { useMemberStore } from '@/stores/member';
 
 const route = useRoute()
+console.log(route.path)
 const memberStore = useMemberStore()
 const logout = function () {
   memberStore.logout()
@@ -31,31 +49,37 @@ const logout = function () {
 
 </script>
 
+
 <style scoped>
 img {
   width: 50px;
 }
 
+.click {
+  background-color: #1a1c26;
+  border-top-left-radius: 40%;
+  border-bottom-left-radius: 40%;
+}
+
+.non-click {
+  background: rgba(39, 41, 50, 1);
+  border-top-left-radius: 40%;
+  border-bottom-left-radius: 40%;
+}
+
 .navbar {
   background: rgba(39, 41, 50, 1);
-  width: 200px;
-  /* 너비 조정 */
+  width: 120px;
   height: 100vh;
-  /* 뷰포트의 전체 높이 */
   position: fixed;
-  /* 왼쪽에 고정된 위치 */
   top: 0;
-  /* 위쪽에 정렬 */
   left: 0;
-  /* 왼쪽에 정렬 */
   display: flex;
-  /* 플렉스박스를 사용하여 정렬 */
   flex-direction: column;
-  /* 항목을 세로로 쌓음 */
+  justify-content: space-around;
+  align-items: end;
   padding-top: 20px;
-  /* 위쪽에 패딩 추가 */
   z-index: 1;
-  /* 네비게이션 바가 다른 요소 위에 올라오도록 z-index 설정 */
 }
 
 .content {
@@ -80,7 +104,7 @@ img {
 
 .navbar a:hover,
 .navbar button:hover {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: #1a1c26;
   /* 마우스 오버 시 배경색 변경 */
 }
 
@@ -93,6 +117,7 @@ img {
   cursor: pointer;
   font-size: 16px;
   margin: 10px;
+  margin-top: 100px;
 }
 
 .navbar img:hover {

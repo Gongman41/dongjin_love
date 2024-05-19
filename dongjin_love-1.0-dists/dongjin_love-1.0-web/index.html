@@ -220,35 +220,57 @@
 
   <script>
       // Register the service worker.
-      if (navigator.serviceWorker) {
-          if (!navigator.serviceWorker.controller) {
-              navigator.serviceWorker.register('./service-worker.js', { updateViaCache: 'all' });
-          }
-      }
-
-      const test = function(name,word) {
-      if (name) {
-        return 1
-      } else {
-        return 0
-      }
+    if (navigator.serviceWorker) {
+        if (!navigator.serviceWorker.controller) {
+            navigator.serviceWorker.register('./service-worker.js', { updateViaCache: 'all' });
+        }
     }
 
-    const getArticles = function () {
-    return axios({
-      method: 'get',
-      url: 'http://127.0.0.1:8000/api/v1/articles/',
-    })
+    function extractUserId() {
+        // 예시로 URL에서 직접 user_id를 추출하는 함수를 작성
+        const urlParams = new URLSearchParams(window.location.search)
+        return urlParams.get('user_id')
+    }
+
+    const userId = extractUserId()
+    
+  //   const get_Nickname = function () {
+  // const url = `http://127.0.0.1:8000/accounts/${userId}/`;
+  
+  // const xhr = new XMLHttpRequest();
+  // xhr.open('GET', url, false); // 마지막 매개변수를 true에서 false로 변경하여 동기적으로 설정합니다.
+  // xhr.send();
+
+  // if (xhr.status === 200) {
+  //   const response = JSON.parse(xhr.responseText);
+  //   const nickname = response.data.nickname;
+  //   return nickname;
+  // } else {
+  //   console.error('Request failed. Status:', xhr.status);
+  //   // 에러 처리를 원하는 방식으로 수행할 수 있습니다.
+  //   return null; // 에러가 발생한 경우 null을 반환하거나 다른 기본값을 반환할 수 있습니다.
+  // }
+// }
+
+      const get_user_id = function () { // userId를 인자로 받음
+      return userId
+    }
+    // url 해시값 받아서 호출까지 ㅇㅋ
+    const get_Moviedata = function () {
+    return axios.get(`http://127.0.0.1:8000/api/v1/`)
       .then(response => {
         return response.data
       })
       .catch(error => {
         console.log(error)
       })
+      
 }
+    
   </script>
   <script src="renpy-pre.js"></script>
   <script async type="text/javascript" src="renpy.js"></script>
+</body>
 
 </html>
 

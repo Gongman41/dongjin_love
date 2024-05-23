@@ -31,13 +31,12 @@ def moviesForGame(request):
       return Response({'detail': '장르 ID가 제공되지 않았습니다.'}, status=status.HTTP_400_BAD_REQUEST)
   
   # genre_ids로 영화 필터링
-  movies = Movie.objects.filter(genres__in=genre_ids).distinct()
-  random_movies = random.sample(list(movies), 16)
+  movies = Movie.objects.filter(genres__in=genre_ids).distinct().order_by('?')
 
-  if not random_movies.exists():
+  if not movies.exists():
       return Response({'detail': '제공된 장르에 해당하는 영화가 없습니다.'}, status=status.HTTP_404_NOT_FOUND)
   
-  serializer = MovieListSerializer(random_movies, many=True)
+  serializer = MovieListSerializer(movies, many=True)
   return Response(serializer.data, status=status.HTTP_200_OK)
     
   

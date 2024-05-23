@@ -4,7 +4,8 @@ import axios from 'axios'
 
 export const useMovieStore = defineStore('movie', () => {
   const API_KEY = import.meta.env.VITE_TMDB_API_KEY
-  const url = `https://api.themoviedb.org/3/movie/top_rated?language=ko-kr&api_key=${API_KEY}`
+  // const url = `https://api.themoviedb.org/3/movie/top_rated?language=ko-kr&api_key=${API_KEY}`
+  const url = 'https://dongjin-love.onrender.com/api/v1'
   const movies = ref([])
   const searchMovie = ref()
   const genres = ref(null)
@@ -23,7 +24,7 @@ export const useMovieStore = defineStore('movie', () => {
   const getMovies = function () {
     axios.get(url).then((response) => {
 
-      movies.value = response.data.results
+      movies.value = response.data
     }).catch((err) => console.log(err))
   }
 
@@ -37,7 +38,7 @@ export const useMovieStore = defineStore('movie', () => {
 
 
   return {
-    movies, searchMovie, genres,
+    movies, searchMovie, genres, url,
     getMovies, getGenres
   }
 }, { persist: true })

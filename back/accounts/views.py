@@ -19,6 +19,7 @@ def profileForGame(request,movie_id,username):
     user = User.objects.get(username=username)
     if request.method == 'POST':
       user.like_movie.add(movie)
+      user.save()
       serializer = UserSerializer(user)
       return Response(serializer.data, status=status.HTTP_200_OK)
  
@@ -29,6 +30,7 @@ def profileForGame2(request,love,username):
     user = User.objects.get(username=username)
     if request.method == 'POST':
       user.lovepoint += love
+      user.save()
       serializer = UserSerializer(user)
       return Response(serializer.data, status=status.HTTP_200_OK)
     

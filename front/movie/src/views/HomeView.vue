@@ -81,11 +81,13 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useMemberStore } from '@/stores/member';
 import { useRoute, useRouter, RouterLink, RouterView } from 'vue-router';
 import axios from 'axios';
+import { useMovieStore } from '@/stores/movie';
 
 const route = useRoute()
 const router = useRouter()
 const nowPageUser = ref()
 const memberStore = useMemberStore()
+const movieStore = useMovieStore()
 const likeMovies = ref([])
 const likeGenres = ref([])
 const done = ref(false)
@@ -94,7 +96,7 @@ const done = ref(false)
 const getMovie = function () {
   axios({
     method: 'get',
-    url: `https://dongjin-love.onrender.com/api/v1/recommend_movieList/`,
+    url: `${movieStore.url}/recommend_movieList/`,
     headers: {
       Authorization: `Token ${memberStore.token}`
     }
@@ -108,7 +110,7 @@ const getMovie = function () {
 const getLikeMovie = function () {
   axios({
     method: 'get',
-    url: `https://dongjin-love.onrender.com/api/v1/recommend_movieListall/`,
+    url: `${movieStore.url}/recommend_movieListall/`,
     headers: {
       Authorization: `Token ${memberStore.token}`
     }
@@ -121,7 +123,7 @@ const getLikeMovie = function () {
 
 const getGenreName = async function (genreId) {
   try {
-    const response = await axios.get(`https://dongjin-love.onrender.com/api/v1/${genreId}/genre/`);
+    const response = await axios.get(`${movieStore.url}/${genreId}/genre/`);
     likeGenres.value.push(response.data.name)
   } catch (error) {
     console.log(error);

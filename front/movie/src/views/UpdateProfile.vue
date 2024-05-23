@@ -129,7 +129,8 @@ onMounted(() => {
 }
 
 .signup-button {
-  background: linear-gradient(to bottom, #763DCF, #5C24CC);
+  /* background: linear-gradient(to bottom, #763DCF, #5C24CC); */
+  background-color: #5E31A6;
   color: white;
   border: none;
   padding: 10px 20px;

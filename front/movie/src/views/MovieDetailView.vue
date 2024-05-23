@@ -2,53 +2,63 @@
   <div>
     <!-- <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" alt="" class="poster-img"> -->
     <div class="movie-box" v-if="movie !== null">
-<!-- 
+      <!-- 
       <div v-if="videoId" class="video-wrapper">
         <iframe
           :src="`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=1&loop=1&playlist=${videoId}&playsinline=1`"
           frameborder="0" allowfullscreen class="video-frame"></iframe>
       </div> -->
       <h1 style="text-align: center; margin-top: 5%; " v-if="movie !== null">{{ movie.title }}</h1>
-      
+
       <div class="movie-detail">
         <iframe v-if="videoId" style="width: 64vw; height: 60vh;"
-        :src="`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=1&loop=1&playlist=${videoId}&playsinline=1`"
-        frameborder="0" allowfullscreen></iframe>
-        <p>장르 : {{ genres }}</p>
-        <p>개봉 : {{ movie.release_date }}</p>
+          :src="`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=1&loop=1&playlist=${videoId}&playsinline=1`"
+          frameborder="0" allowfullscreen></iframe>
+        <p style="display: flex; flex-direction: row; justify-content: space-between;">
+          <p>장르 : {{ genres }}</p>
+          <img v-if="liked" @click="liked = !liked" src="@/assets/heart.png" alt="like">
+          <img v-else @click="liked = !liked" src="@/assets/dislike.png" alt="dislike">
+        </p>
+        <p>개봉일 : {{ movie.release_date }}</p>
         <p>평점 : {{ movie.vote_average }}</p>
         <p>인기도 : {{ movie.popularity }}</p>
         <p @click="addLikeMovie(movie.id)">
-          <p v-if="liked" @click="liked=!liked">좋아요 ♥</p>
-          <p v-else @click="liked=!liked">좋아요 ♡</p>
         </p>
         <p style="text-indent: 10px;">{{ movie.overview }}</p>
 
         <p>출연 :
           <span v-for="actor in actors" :key="actor.id" class="person-item">
-            <img :src="`https://image.tmdb.org/t/p/w500${actor.poster_path}`" alt="NO IMAGE" class="person-img">
+            <img v-if="actor.poster_path" :src="`https://image.tmdb.org/t/p/w500${actor.poster_path}`" alt="" class="person-img">
+            <img v-else src="@/assets/profile.png" alt="" class="person-img">
             <p>{{ actor.name }}</p>
           </span>
         </p>
         <p>제작 :
           <span v-for="producer in crews" :key="producer.id" class="person-item">
-            <img :src="`https://image.tmdb.org/t/p/w500${producer.poster_path}`" alt="NO IMAGE" class="person-img">
+            <img v-if="producer.poster_path" :src="`https://image.tmdb.org/t/p/w500${producer.poster_path}`" alt="" class="person-img">
+            <img v-else src="@/assets/profile.png" alt="" class="person-img">
             <p>{{ producer.name }}</p>
           </span>
         </p>
       </div>
       <div class="review-container">
-        <!-- 리뷰 리스트 -->
+        <h2>리뷰 리스트</h2>
         <div class="review-list">
-          <h2>리뷰 리스트</h2>
-          <!-- 리뷰가 있는 경우에만 표시 -->
           <div v-if="reviews.length > 0">
-            <div v-for="(review) in reviews" :key="review.id" class="review-item">
-              <!-- <p>번호: {{ index }}</p> -->
-              <p>{{ review.user.nickname }}</p>
-              <p>{{ review.content }}</p>
-              <!-- <p>좋아요: {{ review.rank }}/5</p> -->
-              <p>{{ format(review.updated_at, 'yyyy-MM-dd') }}</p>
+            <div v-for="(review) in reviews" :key="review.id">
+              <div class="review-info">
+                <p>작성자 : {{ review.user.nickname }}</p>
+                <p>작성일 : {{ format(review.updated_at, 'yyyy-MM-dd') }}</p>
+              </div>
+              <div class="review-item">
+                <p>{{ review.content }}</p>
+                <div>
+                  <p class="star">
+                    <img v-for="i in review.rank" src="@/assets/star.png" alt="star" class="rank">
+                  </p>
+                </div>
+              </div>
+              
 
             </div>
           </div>
@@ -59,11 +69,12 @@
         <!-- 리뷰 작성 폼 -->
         <div class="review-form">
           <form @submit.prevent="submitReview">
-            <label for="review-content">리뷰 내용:</label><br>
-            <textarea id="review-content" v-model="newReview.content"></textarea><br>
-            <label for="review-rating">평점 (1-5):</label><br>
-            <input type="number" id="review-rating" v-model="newReview.rank" min="1" max="5"><br>
-            <button type="submit">작성 완료</button>
+            <label for="review-rating">평점</label><br>
+            <input type="number" id="review-rating" v-model="newReview.rank" min="1" max="5" class="rate-box"
+              placeholder="별점 1 ~ 5"><br>
+            <label for="review-content">리뷰</label><br>
+            <input id="review-content" v-model="newReview.content" class="input-box" placeholder="댓글을 입력해주세요"></input><br>
+            <button class="create-button" type="submit">작성 하기</button>
           </form>
         </div>
       </div>
@@ -77,13 +88,14 @@ import axios from 'axios';
 import { onMounted, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useMemberStore } from '@/stores/member'
+import { useMovieStore } from '@/stores/movie';
 import { format } from 'date-fns';
 
 const store = useMemberStore()
+const movieStore = useMovieStore()
 // const user = store.loginUser
 // const reviews = ref([]); // 리뷰 리스트
 const reviews = ref([])
-const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY
 
 
 const newReview = ref({ // 새로운 리뷰를 위한 데이터
@@ -103,20 +115,22 @@ onMounted(() => {
   movieId.value = route.params.movie_id;
   axios({
     method: 'get',
-    url: `${store.API_URL}/api/v1/${movieId.value}/`
+    url: `${movieStore.url}/${movieId.value}/`
   })
     .then((response) => {
       movie.value = response.data;
+      console.log(movie.value.liked_users)
       submitQuery();
-      return axios.get(`${store.API_URL}/api/v1/${movieId.value}/review/`); // 리뷰 목록 가져오기
+      return axios.get(`${movieStore.url}/${movieId.value}/review/`); // 리뷰 목록 가져오기
     })
     .then((reviewsResponse) => {
+      reviews.value = reviewsResponse.data;
+      console.log(reviews.value)
       movie.value.liked_users.forEach(user => {
         if (user.username === store.loginUser) {
-         liked.value = true 
+          liked.value = true
         }
       })
-      reviews.value = reviewsResponse.data;
     })
     .catch(error => console.error(error));
 });
@@ -124,10 +138,10 @@ onMounted(() => {
 const addLikeMovie = function (movieId) {
   axios({
     method: 'put',
-    url: `${store.API_URL}/api/v1/likemovie/${movieId}/`,
+    url: `${movieStore.url}/likemovie/${movieId}/`,
     headers: {
-        'Authorization': `Token ${store.token}`
-      }
+      'Authorization': `Token ${store.token}`
+    }
   })
     .then(response => console.log(response))
     .catch(error => console.log(error))
@@ -135,7 +149,7 @@ const addLikeMovie = function (movieId) {
 
 const submitReview = async function () {
   try {
-    const response = await axios.post(`${store.API_URL}/api/v1/${movieId.value}/review/`, {
+    const response = await axios.post(`${movieStore.url}}/${movieId.value}/review/`, {
       content: newReview.value.content,
       rank: newReview.value.rank,
     }, {
@@ -165,7 +179,7 @@ const submitQuery = async function () {
         part: 'snippet',
         q: `${movie.value.title} official trailer`,
         type: 'video',
-        key: `${API_KEY}`,
+        key: 'AIzaSyDskhfMipluROAa1aw94rdNHj4WrrIKHY4',
       }
       // key 갱신 문제
     });
@@ -190,7 +204,7 @@ const submitQuery = async function () {
 
 const getPerson = async function (PersonId) {
   try {
-    const response = await axios.get(`${store.API_URL}/api/v1/${PersonId}/person/`);
+    const response = await axios.get(`${movieStore.url}/${PersonId}/person/`);
     return response.data
   } catch (error) {
     console.log(error);
@@ -200,7 +214,7 @@ const getPerson = async function (PersonId) {
 
 const getGenreName = async function (genreId) {
   try {
-    const response = await axios.get(`${store.API_URL}/api/v1/${genreId}/genre/`);
+    const response = await axios.get(`${movieStore.url}/${genreId}/genre/`);
     return response.data.name;
   } catch (error) {
     console.log(error);
@@ -212,6 +226,63 @@ const getGenreName = async function (genreId) {
 </script>
 
 <style scoped>
+.create-button {
+  background-color: #5E31A6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+  margin-top: 10px;
+  float: right;
+}
+
+.star {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.rank {
+  width: 20px;
+  height: 20px;
+}
+
+.review-list {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.review-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.input-box {
+  background: #0a141e;
+  color: white;
+  font-size: 15px;
+  width: 100%;
+  height: 40px;
+  padding-left: 20px;
+  border-radius: 20px;
+  margin-top: 5px;
+}
+
+.rate-box {
+  width: 20%;
+  height: 40px;
+  background: #0a141e;
+  text-align: center;
+  color: white;
+  border-radius: 20px;
+  margin-top: 5px;
+}
+
 .movie-box {
   display: flex;
   flex-direction: column;
@@ -269,11 +340,9 @@ const getGenreName = async function (genreId) {
 }
 
 .person-img {
-  width: 100px;
-  /* 적당한 크기 */
-  height: auto;
+  width: 120px;
+  height: 130px;
   border-radius: 10px;
-  /* 이미지 테두리 둥글게 */
 }
 
 .review-container {
@@ -289,59 +358,20 @@ const getGenreName = async function (genreId) {
   padding: 15px 20px;
   /* 상하 15px, 좌우 20px */
   display: flex;
-  flex-wrap: wrap;
-  /* Flex wrap을 사용하여 요소들을 줄 바꿈 */
   line-height: 1.5;
   /* 줄 간격을 1.5로 설정 */
   flex-direction: column;
 }
 
-.review-list,
-.review-form {
-  flex: 1;
-  margin-right: 20px;
-}
 
 .review-item {
   border: 1px solid #ccc;
+  width: 100%;
   padding: 10px;
   margin-bottom: 20px;
   display: flex;
-  flex-direction: row;
-}
-
-.review-item>* {
-  flex: 2;
-
-
-}
-
-.review-item> :nth-child(2) {
-  flex: 6;
-  /* 중앙 요소의 너비 비율을 8로 설정 */
-}
-
-.review-form form {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.review-form label {
-  flex: 2;
-}
-
-.review-form textarea {
-  flex: 6;
-}
-
-.review-form input[type="number"] {
-  flex: 2;
-
-}
-
-.review-form button {
-  flex: 2;
+  flex-direction: column;
+  
 }
 
 </style>

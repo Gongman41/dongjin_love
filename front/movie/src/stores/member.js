@@ -58,13 +58,12 @@ export const useMemberStore = defineStore('member', () => {
       .then((response) => {
         token.value = response.data.key
         loginUser.value = username
-        // console.log(loginUser.value)
-        // console.log(token.value)
-        // console.log('로그인 성공')
         router.push('/')
       })
       .catch((error) => {
         console.log(error)
+        window.alert('정확한 아이디와 비밀번호를 입력해주세요.')
+        window.location.reload()
       })
   }
 

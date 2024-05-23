@@ -65,8 +65,10 @@ import KakaoMap from '@/components/KakaoMap.vue';
 import UserRanking from '@/components/UserRanking.vue';
 import 'vue3-carousel/dist/carousel.css';
 import { useMemberStore } from '@/stores/member';
+import { useMovieStore } from '@/stores/movie';
 
 const MemberStore = useMemberStore()
+const movieStore = useMovieStore()
 
 const movie = ref(null);
 const recommendMovies = ref([]);
@@ -76,7 +78,7 @@ const router = useRouter();
 
 const fetchRecommendMovies = async () => {
   try {
-    const response = await axios.get(`${Menberstore.API_URL}/api/v1/recommend_movieList/`, {
+    const response = await axios.get(`${movieStore.url}/recommend_movieList/`, {
       headers: {
         'Authorization': `Token ${MemberStore.token}`
       }
@@ -92,7 +94,7 @@ const fetchRecommendMovies_genre = async () => {
 
     console.log('Fetching recommended movies');
     console.log('Token:', MemberStore.token);
-    const response = await axios.put(`${MemberStore.API_URL}/api/v1/recommend_movieList/`,
+    const response = await axios.put(`${movieStore.url}/recommend_movieList/`,
       {},
       {
         headers: {

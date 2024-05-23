@@ -49,11 +49,13 @@
 import { ref } from 'vue'
 import { useRoute, useRouter, RouterView, RouterLink } from 'vue-router'
 import { useMemberStore } from '@/stores/member';
+import { useMovieStore } from './stores/movie';
 import axios from 'axios';
 
 const route = useRoute()
 const router = useRouter()
 const memberStore = useMemberStore()
+const movieStore = useMovieStore()
 const movie = ref(null)
 const logout = function () {
   memberStore.logout()
@@ -61,7 +63,7 @@ const logout = function () {
 
 const search = async () => {
   try {
-    const response = await axios.get('https://dongjin-love.onrender.com/api/v1/search/', {
+    const response = await axios.get(`${movieStore.url}/search/`, {
       params: { movie_title: movie.value }
     });
     console.log(movie)

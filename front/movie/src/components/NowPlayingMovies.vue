@@ -1,5 +1,5 @@
 <template>
-  <h2 style="color: black;">현재 상영중인 영화</h2>
+  <h2 style="color: black; padding-left: 2%;">현재 상영중인 영화</h2>
   <div class="user-ranking">
     <table class="ranking-table">
       <tbody>
@@ -65,28 +65,53 @@ export default {
 <style scoped>
 .user-ranking {
   max-width: 800px;
-  /* 전체적으로 크기를 키웁니다 */
-  margin: 0 auto;
+  margin: 3% auto;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background-color: #fff;
 }
 
 .ranking-table {
   width: 100%;
   border-collapse: collapse;
+  font-family: Arial, sans-serif;
 }
 
-.ranking-table td {
+.ranking-table thead {
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+}
+
+.ranking-table td,
+.ranking-table th {
   padding: 12px;
-  /* 셀 내부 여백을 늘립니다 */
   text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
 .ranking-table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-.ranking-table tbody {
-  background-color: #f2f2f2;
+.ranking-table tbody tr:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
 }
 
 
+.ranking-table td.rank {
+  width: 10%;
+  font-weight: bold;
+}
+
+.ranking-table td.movieNm {
+  width: 70%;
+}
+
+.ranking-table td.lovepoint {
+  width: 20%;
+  color: #555;
+}
 </style>

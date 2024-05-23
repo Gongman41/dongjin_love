@@ -1,8 +1,7 @@
 <template>
   <div v-if="finalWinner" class="movie-container">
     <div v-if="finalWinner.poster_path !== undefined">
-      <h2>Winner</h2>
-      <p>{{ finalWinner.title }}</p>
+      <h2 style="margin-bottom: 5%; text-align: center;">Winner</h2>
       <img :src="`https://image.tmdb.org/t/p/w500${finalWinner.poster_path}`" alt="" class="poster-img">
     </div>
 
@@ -101,7 +100,7 @@ watch(finalWinner, (newValue) => {
   if (newValue !== null) {
     axios({
       method: 'post',
-      url: `${memberStore.API_URL}/api/v1/likemovie/${newValue.id}/`,
+      url: `${store.url}/likemovie/${newValue.id}/`,
       headers: {
         Authorization: `Token ${memberStore.token}`
       }

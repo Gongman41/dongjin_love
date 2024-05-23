@@ -3,7 +3,7 @@
     <iframe id="kakao-map-iframe" src="https://map.kakao.com/?q=영화관"
       style="width: 200px; height: 200px; border: none;"></iframe>
   </div> -->
-
+  <h3 style="padding-left: 2%;">근처 영화관</h3>
   <div class="kakao-map-wrapper">
     <iframe id="kakao-map-iframe"
       src="https://m.map.kakao.com/actions/searchView?q=%EC%98%81%ED%99%94%EA%B4%80&wxEnc=YQRONOHR&wyEnc=LSWMTRHR&lvl=4#!/all/map/place"></iframe>

@@ -94,10 +94,10 @@ def search(request):
 
 @csrf_exempt
 @api_view(['POST','PUT'])
-def like_movie(request, movie_id):
+def like_movie(request, movie_id,username):
     movie = get_object_or_404(Movie, pk=movie_id)
     User = get_user_model()
-    user = User.objects.get(username=request.user)
+    user = User.objects.get(username=username)
     if request.method == 'POST':
       user.like_movie.add(movie)
       serializer = UserSerializer(user)

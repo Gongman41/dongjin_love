@@ -1,27 +1,29 @@
 <template>
   <div>
     <h1 class="title">회원 정보 수정</h1>
-    <form @submit.prevent="updateProfile">
-      <div>
-        <label for="nickname" class="label">닉네임</label>
-        <p><input type="text" id="nickname" name="nickname" class="input-box" v-model="nickname"></p>
-      </div>
+    <div class="container">
+      <form @submit.prevent="updateProfile">
+        <div>
+          <label for="nickname" class="label">닉네임</label>
+          <p><input type="text" id="nickname" name="nickname" class="input-box" v-model="nickname"></p>
+        </div>
 
-      <!-- <div>
+        <!-- <div>
         <label for="followings" class="label">팔로잉</label>
         <p><input type="text" id="followings" name="followings" class="input-box" v-model="followings"></p>
       </div> -->
 
-      <div>
-        <label for="like_genre" class="label">좋아하는 장르</label>
-        <div v-for="genre in movieStore.genres" :key="genre.pk">
-          <input type="checkbox" :id="genre.name" :value="genre.id" v-model="choosenGenres">
-          <label :for="genre.name">{{ genre.name }}</label>
+        <div>
+          <label for="like_genre" class="label">좋아하는 장르</label>
+          <div v-for="genre in movieStore.genres" :key="genre.pk">
+            <input type="checkbox" :id="genre.name" :value="genre.id" v-model="choosenGenres">
+            <label :for="genre.name">{{ genre.name }}</label>
+          </div>
         </div>
-      </div>
 
-      <input type="submit" class="signup-button" value="수정하기">
-    </form>
+        <input type="submit" class="signup-button" value="수정하기">
+      </form>
+    </div>
   </div>
 </template>
 
@@ -79,6 +81,12 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
+
 .background-container {
   width: 100vw;
   /* 전체 화면 너비 */

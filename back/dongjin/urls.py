@@ -24,6 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('movies.urls')),
     path('profile/<str:username>/', views.profile),
+    path('profile_for_game/<str:username>/', views.profileForGame),
+
     path('user_ranking/',views.user_ranking),
 
     # dj-rest-auth

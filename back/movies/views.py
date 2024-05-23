@@ -10,7 +10,6 @@ from .serializers import ReviewSerializer, ReviewListSerializer, GenreSerializer
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
-from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -92,12 +91,11 @@ def search(request):
     except Http404:
         return Response({"error": "영화가 없습니다."}, status=status.HTTP_404_NOT_FOUND)
 
-@csrf_exempt
 @api_view(['POST','PUT'])
-def like_movie(request, movie_id,username):
+def like_movie(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
     User = get_user_model()
-    user = User.objects.get(username=username)
+    user = User.objects.get(username=request.user)
     if request.method == 'POST':
       user.like_movie.add(movie)
       serializer = UserSerializer(user)

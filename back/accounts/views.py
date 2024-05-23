@@ -1,6 +1,6 @@
 from django.shortcuts import get_list_or_404, get_object_or_404
 from .models import Movie, Review, User
-from .serializers import UserSerializer, UserUpdateSerializer
+from .serializers import UserSerializer, UserUpdateSerializer,UserUpdateForGameSerializer
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
@@ -8,11 +8,26 @@ from .serializers import UserSerializer
 from django.contrib.auth import get_user_model
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from django.views.decorators.csrf import csrf_exempt
 
 
+@csrf_exempt
+@api_view(['POST'])
+def profileForGame(request,username):
+    user = get_object_or_404(User, username=username)
+    if request.method == 'POST':
+        serializer = UserUpdateForGameSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+    
 @api_view(['GET', 'PUT', 'POST'])
 def profile(request, username):
     user = get_object_or_404(User, username=username)
+    
 
 
     if request.method == 'GET':

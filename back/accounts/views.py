@@ -13,16 +13,24 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 @api_view(['POST'])
-def profileForGame(request,username):
-    user = get_object_or_404(User, username=username)
+def profileForGame(request,movie_id,username):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    User = get_user_model()
+    user = User.objects.get(username=username)
     if request.method == 'POST':
-        serializer = UserUpdateForGameSerializer(user, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
-
+      user.like_movie.add(movie)
+      serializer = UserSerializer(user)
+      return Response(serializer.data, status=status.HTTP_200_OK)
+ 
+@csrf_exempt
+@api_view(['POST'])       
+def profileForGame2(request,love,username):
+    User = get_user_model()
+    user = User.objects.get(username=username)
+    if request.method == 'POST':
+      user.lovepoint += love
+      serializer = UserSerializer(user)
+      return Response(serializer.data, status=status.HTTP_200_OK)
     
 @api_view(['GET', 'PUT', 'POST'])
 def profile(request, username):

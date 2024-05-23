@@ -37,8 +37,8 @@ if DEBUG:
     ]
 else:
     ALLOWED_HOSTS = [
-        'deploytest-s4b4.onrender.com/',
-        'https://deploytest-s4b4.onrender.com/'
+        'dongjin-love.onrender.com/',
+        'https://dongjin-love.onrender.com/'
     ]
 
     CORS_ALLOWED_ORIGINS = [

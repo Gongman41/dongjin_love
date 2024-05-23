@@ -27,12 +27,11 @@ export default {
       const d = dt.getDate() - 1 < 10 ? '0' + (dt.getDate() - 1) : dt.getDate() - 1
       const y = dt.getFullYear()
       const result = y + m + d
+      console.log(result)
       axios({
         method: 'get',
-        url: `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=${API_KEY}&targetDt=${result}&itemPerPage=5`,
-        headers: {
-          Authorization: `Token ${API_KEY}`
-        }
+        // url: `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=${API_KEY}&targetDt=${result}&itemPerPage=5`,
+        url: `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=36780b0b34449e529882f636f7fa00ab&targetDt=20240523&itemPerPage=5`,
       })
         .then(response => {
           const parser = new DOMParser()

@@ -19,14 +19,13 @@ import axios from 'axios';
 export default {
   setup() {
     const movies = ref([]);
-    const API_KEY = import.meta.env.VITE_KOFIC_API_KEY
+    const API_KEY = import.meta.env.VITE_KOBIS_API_KEY
     onMounted(() => {
       const dt = new Date();
       const m = dt.getMonth() + 1 < 10 ? '0' + (dt.getMonth() + 1) : dt.getMonth() + 1
       const d = dt.getDate() - 1 < 10 ? '0' + (dt.getDate() - 1) : dt.getDate() - 1
       const y = dt.getFullYear()
       const result = y + m + d
-      console.log(result)
       axios({
         method: 'get',
         url: `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=${API_KEY}&targetDt=${result}&itemPerPage=5`

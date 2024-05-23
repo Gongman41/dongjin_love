@@ -25,7 +25,7 @@ const memberStore = useMemberStore()
 
 async function fetchUserRanking() {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/user_ranking/');
+    const response = await axios.get(`${memberStore.API_URL}/user_ranking/`);
     users.value = response.data.slice(0, 5);
   } catch (error) {
     console.error('Error fetching user ranking:', error);

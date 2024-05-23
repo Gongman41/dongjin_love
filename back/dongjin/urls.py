@@ -24,8 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('movies.urls')),
     path('profile/<str:username>/', views.profile),
-    path('profile_for_game/<str:username>/<int:movie_id>', views.profileForGame),
-    path('profile_for_game2/<str:username>/<int:love>', views.profileForGame2),
+    path('profile_for_game/<str:username>/<int:movie_id>/', views.profileForGame),
+    path('profile_for_game2/<str:username>/<int:love>/', views.profileForGame2),
 
 
     path('user_ranking/',views.user_ranking),

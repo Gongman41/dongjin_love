@@ -52,6 +52,7 @@ const login = function () {
     password: password.value
   }
   memberStore.login(payload)
+  console.log(memberStore.token)
 }
 onMounted(() => {
   var current_fs, next_fs, previous_fs

@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 
 export const useMemberStore = defineStore('member', () => {
-  const API_URL = 'http://127.0.0.1:8000'
+  const API_URL = 'https://dongjin-love.onrender.com'
   const token = ref(null)
   const profile = ref(null)
   const loginUser = ref(null)

@@ -74,7 +74,7 @@ const getGenreNameById = function (genreId) {
 const getMovie = function() {
   axios({
     method: 'get',
-    url: `http://127.0.0.1:8000/api/v1/${movieId.value}/`
+    url: `${memberStore.API_URL}/api/v1/${movieId.value}/`
   })
     .then((response) => {
       likeMovies.value.push(response.data);
@@ -85,7 +85,7 @@ const getMovie = function() {
 const getGenres = function() {
   axios({
     method: 'get',
-    url: 'http://127.0.0.1:8000/api/v1/genres/'
+    url: `${memberStore.API_URL}/api/v1/genres/`
   })
     .then(response => likeGenres.value = response.data)
     .catch(error => console.log(error))
@@ -115,7 +115,7 @@ onMounted(() => {
   memberStore.profile.like_movie.forEach(movieId => {
     axios({
       method: 'get',
-      url: `http://127.0.0.1:8000/api/v1/${movieId}/`
+      url: `${memberStore.API_URL}/api/v1/${movieId}/`
     })
       .then((response) => {
         likeMovies.value.push(response.data);

@@ -83,6 +83,7 @@ const store = useMemberStore()
 // const user = store.loginUser
 // const reviews = ref([]); // 리뷰 리스트
 const reviews = ref([])
+const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY
 
 
 const newReview = ref({ // 새로운 리뷰를 위한 데이터
@@ -102,12 +103,12 @@ onMounted(() => {
   movieId.value = route.params.movie_id;
   axios({
     method: 'get',
-    url: `http://127.0.0.1:8000/api/v1/${movieId.value}/`
+    url: `${store.API_URL}/api/v1/${movieId.value}/`
   })
     .then((response) => {
       movie.value = response.data;
       submitQuery();
-      return axios.get(`http://127.0.0.1:8000/api/v1/${movieId.value}/review/`); // 리뷰 목록 가져오기
+      return axios.get(`${store.API_URL}/api/v1/${movieId.value}/review/`); // 리뷰 목록 가져오기
     })
     .then((reviewsResponse) => {
       movie.value.liked_users.forEach(user => {
@@ -123,7 +124,7 @@ onMounted(() => {
 const addLikeMovie = function (movieId) {
   axios({
     method: 'put',
-    url: `http://127.0.0.1:8000/api/v1/likemovie/${movieId}/`,
+    url: `${store.API_URL}/api/v1/likemovie/${movieId}/`,
     headers: {
         'Authorization': `Token ${store.token}`
       }
@@ -134,7 +135,7 @@ const addLikeMovie = function (movieId) {
 
 const submitReview = async function () {
   try {
-    const response = await axios.post(`http://127.0.0.1:8000/api/v1/${movieId.value}/review/`, {
+    const response = await axios.post(`${store.API_URL}/api/v1/${movieId.value}/review/`, {
       content: newReview.value.content,
       rank: newReview.value.rank,
     }, {
@@ -164,7 +165,7 @@ const submitQuery = async function () {
         part: 'snippet',
         q: `${movie.value.title} official trailer`,
         type: 'video',
-        key: 'AIzaSyDskhfMipluROAa1aw94rdNHj4WrrIKHY4',
+        key: `${API_KEY}`,
       }
       // key 갱신 문제
     });
@@ -189,7 +190,7 @@ const submitQuery = async function () {
 
 const getPerson = async function (PersonId) {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/v1/${PersonId}/person/`);
+    const response = await axios.get(`${store.API_URL}/api/v1/${PersonId}/person/`);
     return response.data
   } catch (error) {
     console.log(error);
@@ -199,7 +200,7 @@ const getPerson = async function (PersonId) {
 
 const getGenreName = async function (genreId) {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/v1/${genreId}/genre/`);
+    const response = await axios.get(`${store.API_URL}/api/v1/${genreId}/genre/`);
     return response.data.name;
   } catch (error) {
     console.log(error);

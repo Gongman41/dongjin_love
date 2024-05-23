@@ -17,7 +17,7 @@ const url = ref(null)
 onMounted(() => {
   memberStore.getProfile()
   userId.value = memberStore.profile.id
-  url.value = `https://lkm98401.itch.io/test?user_id=${userId}`
+  url.value = `https://lkm98401.itch.io/test?username=${memberStore.loginUser}`
 })
 
 </script>

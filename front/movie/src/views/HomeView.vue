@@ -94,7 +94,7 @@ const done = ref(false)
 const getMovie = function () {
   axios({
     method: 'get',
-    url: `http://127.0.0.1:8000/api/v1/recommend_movieList/`,
+    url: `https://dongjin-love.onrender.com/api/v1/recommend_movieList/`,
     headers: {
       Authorization: `Token ${memberStore.token}`
     }
@@ -108,7 +108,7 @@ const getMovie = function () {
 const getLikeMovie = function () {
   axios({
     method: 'get',
-    url: `http://127.0.0.1:8000/api/v1/recommend_movieListall/`,
+    url: `https://dongjin-love.onrender.com/api/v1/recommend_movieListall/`,
     headers: {
       Authorization: `Token ${memberStore.token}`
     }
@@ -121,7 +121,7 @@ const getLikeMovie = function () {
 
 const getGenreName = async function (genreId) {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/v1/${genreId}/genre/`);
+    const response = await axios.get(`https://dongjin-love.onrender.com/api/v1/${genreId}/genre/`);
     likeGenres.value.push(response.data.name)
   } catch (error) {
     console.log(error);

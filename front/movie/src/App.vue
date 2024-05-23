@@ -61,7 +61,7 @@ const logout = function () {
 
 const search = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/v1/search/', {
+    const response = await axios.get('https://dongjin-love.onrender.com/api/v1/search/', {
       params: { movie_title: movie.value }
     });
     console.log(movie)

@@ -76,7 +76,7 @@ const router = useRouter();
 
 const fetchRecommendMovies = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/v1/recommend_movieList/', {
+    const response = await axios.get(`${Menberstore.API_URL}/api/v1/recommend_movieList/`, {
       headers: {
         'Authorization': `Token ${MemberStore.token}`
       }
@@ -92,7 +92,7 @@ const fetchRecommendMovies_genre = async () => {
 
     console.log('Fetching recommended movies');
     console.log('Token:', MemberStore.token);
-    const response = await axios.put('http://127.0.0.1:8000/api/v1/recommend_movieList/',
+    const response = await axios.put(`${MemberStore.API_URL}/api/v1/recommend_movieList/`,
       {},
       {
         headers: {

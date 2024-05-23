@@ -12,7 +12,7 @@ export const useMovieStore = defineStore('movie', () => {
   const getGenres = function () {
     axios({
       method: 'get',
-      url: 'http://127.0.0.1:8000/api/v1/genres/'
+      url: 'https://dongjin-love.onrender.com/api/v1/genres/'
     })
       .then((response) => {
         genres.value = response.data

@@ -67,7 +67,7 @@ onMounted(() => {
     next_fs = $(this).parent().next();
 
     $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
-
+    // 2f3d35a797a03a029cfdebcf0cebd0275ca47499
     next_fs.show();
     current_fs.animate({ opacity: 0 }, {
       step: function (now, mx) {

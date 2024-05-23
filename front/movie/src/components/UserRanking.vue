@@ -22,7 +22,7 @@ const users = ref([]);
 
 async function fetchUserRanking() {
   try {
-    const response = await axios.get('https://dongjin-love-1.onrender.com/user_ranking/');
+    const response = await axios.get('https://dongjin-love.onrender.com/user_ranking/');
     users.value = response.data;
   } catch (error) {
     console.error('Error fetching user ranking:', error);

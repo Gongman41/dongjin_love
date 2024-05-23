@@ -44,7 +44,8 @@ else:
     CORS_ALLOWED_ORIGINS = [
         #프론트
         'https://dongjin-love-1.onrender.com',
-        'https://lkm98401.itch.io/test'
+        'https://lkm98401.itch.io/test',
+        'lkm98401.itch.io/test'
     ]
 
 

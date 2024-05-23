@@ -1,3 +1,4 @@
+import os
 """
 Django settings for dongjin project.
 
@@ -25,7 +26,25 @@ SECRET_KEY = 'django-insecure-zkvi!&0_69px@f^96(agn#^@f70gld!&0z3pl$rsv=2bvww9r%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+if DEBUG:
+    ALLOWED_HOSTS = [
+        # 'vote-tqrw.onrender.com',
+        # 'https://vote-tqrw.onrender.com/'
+    ]
+
+    CORS_ALLOWED_ORIGINS = [
+        'http://localhost:5173',
+    ]
+else:
+    ALLOWED_HOSTS = [
+        'deploytest-s4b4.onrender.com/',
+        'https://deploytest-s4b4.onrender.com/'
+    ]
+
+    CORS_ALLOWED_ORIGINS = [
+        #프론트
+        'https://vote-1.onrender.com',
+    ]
 
 
 # Application definition
@@ -73,6 +92,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     # corsheaders
     'corsheaders.middleware.CorsMiddleware',
@@ -85,12 +105,12 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'http://127.0.0.1:5173',
-    'http://localhost:5173',
-    'http://127.0.0.1:8042',
-    'http://localhost:8042'
-]
+# CORS_ALLOWED_ORIGINS = [
+#     'http://127.0.0.1:5173',
+#     'http://localhost:5173',
+#     'http://127.0.0.1:8042',
+#     'http://localhost:8042'
+# ]
 
 ROOT_URLCONF = 'dongjin.urls'
 
@@ -159,6 +179,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
+if not DEBUG:
+    # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
+    # and renames the files with unique names for each version to support long-term caching
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

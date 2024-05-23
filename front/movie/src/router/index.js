@@ -6,6 +6,11 @@ import LoginView from '@/views/LoginView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 import MovieDetailView from '@/views/MovieDetailView.vue'
 import ProfileView from '@/views/ProfileView.vue'
+import UpdateProfile from '@/views/UpdateProfile.vue'
+import SearchMoviesView from '@/views/SearchMoviesView.vue'
+import MovieWorldCupView from '@/views/MovieWorldCupView.vue'
+import test from '@/views/test.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,7 +36,7 @@ const router = createRouter({
       component: SignUpView
     },
     {
-      path: '/moviedetail',
+      path: '/moviedetail/:movie_id',
       name: 'MovieDetail',
       component: MovieDetailView
     },
@@ -39,6 +44,25 @@ const router = createRouter({
       path: '/profile/:username',
       name: 'Profile',
       component: ProfileView
+    },
+    {
+      path: '/profile/:username/update',
+      name: 'UpdateProfile',
+      component: UpdateProfile
+    },
+    {
+      path: '/search/:movie_title',
+      name: 'SearchMovies',
+      component: SearchMoviesView
+    },
+    {
+      path: '/movieworldcup',
+      name: 'WorldCup',
+      component: MovieWorldCupView
+    },
+    {
+      path: '/test',
+      component: test
     },
   ]
 })

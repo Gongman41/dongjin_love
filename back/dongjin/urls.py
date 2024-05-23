@@ -24,6 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('movies.urls')),
     path('profile/<str:username>/', views.profile),
+    path('user_ranking/',views.user_ranking),
+
     # dj-rest-auth
     path('accounts/', include('dj_rest_auth.urls')),
     # 'dj-rest-auth[with_social]'

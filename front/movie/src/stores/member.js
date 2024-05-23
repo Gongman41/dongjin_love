@@ -8,6 +8,7 @@ export const useMemberStore = defineStore('member', () => {
   const token = ref(null)
   const profile = ref(null)
   const loginUser = ref(null)
+
   const isLogin = computed(() => {
     if (token.value === null) {
       return false
@@ -19,8 +20,8 @@ export const useMemberStore = defineStore('member', () => {
   const router = useRouter()
 
   const signup = function (payload) {
-    const { username, password1, password2, nickname } = payload
-
+    const { username, password1, password2, nickname, like_genre } = payload
+    console.log(like_genre)
     axios({
       method: 'post',
       url: `${API_URL}/accounts/signup/`,
@@ -28,13 +29,14 @@ export const useMemberStore = defineStore('member', () => {
         username,
         password1,
         password2,
-        nickname
+        nickname,
+        like_genre
       }
     })
       .then((response) => {
         const password = password1
+        console.log(like_genre)
         login({ username, password })
-        console.log('회원가입 성공')
       })
       .catch((error) => {
         console.log(error)
@@ -56,9 +58,9 @@ export const useMemberStore = defineStore('member', () => {
       .then((response) => {
         token.value = response.data.key
         loginUser.value = username
-        console.log(loginUser.value)
-        console.log(token.value)
-        console.log('로그인 성공')
+        // console.log(loginUser.value)
+        // console.log(token.value)
+        // console.log('로그인 성공')
         router.push('/')
       })
       .catch((error) => {
@@ -75,10 +77,10 @@ export const useMemberStore = defineStore('member', () => {
       .then((response) => {
         token.value = null
         loginUser.value = null
-        console.log(loginUser.value)
-        console.log(token.value)
+        // console.log(loginUser.value)
+        // console.log(token.value)
+        // console.log('로그아웃 성공')
         router.push('/login')
-        console.log('로그아웃 성공')
       })
       .catch((error) => {
         console.log(error)
@@ -88,7 +90,6 @@ export const useMemberStore = defineStore('member', () => {
   const getProfile = function () {
     axios({
       method: 'get',
-      // url: `http://127.0.0.1:8000/profile/${userName.value}`,
       url: `${API_URL}/profile/${loginUser.value}`
     })
       .then((response) => {

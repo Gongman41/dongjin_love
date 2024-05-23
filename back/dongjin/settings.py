@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-zkvi!&0_69px@f^96(agn#^@f70gld!&0z3pl$rsv=2bvww9r%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 if DEBUG:
     ALLOWED_HOSTS = [
@@ -37,13 +37,13 @@ if DEBUG:
     ]
 else:
     ALLOWED_HOSTS = [
-        'deploytest-s4b4.onrender.com/',
-        'https://deploytest-s4b4.onrender.com/'
+        'dongjin-love.onrender.com/',
+        'https://dongjin-love.onrender.com/'
     ]
 
     CORS_ALLOWED_ORIGINS = [
         #프론트
-        'https://vote-1.onrender.com',
+        'https://dongjin-love-1.onrender.com',
     ]
 
 

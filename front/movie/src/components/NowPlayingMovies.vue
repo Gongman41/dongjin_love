@@ -20,7 +20,6 @@ export default {
   setup() {
     const movies = ref([]);
     const API_KEY = import.meta.env.VITE_KOBIS_API_KEY
-    console.log(API_KEY)
     onMounted(() => {
       const dt = new Date();
       const m = dt.getMonth() + 1 < 10 ? '0' + (dt.getMonth() + 1) : dt.getMonth() + 1
@@ -30,8 +29,7 @@ export default {
       console.log(result)
       axios({
         method: 'get',
-        // url: `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=${API_KEY}&targetDt=${result}&itemPerPage=5`,
-        url: `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=36780b0b34449e529882f636f7fa00ab&targetDt=20240523&itemPerPage=5`,
+        url: `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=${API_KEY}&targetDt=${result}&itemPerPage=5`,
       })
         .then(response => {
           const parser = new DOMParser()
